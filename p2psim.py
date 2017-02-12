@@ -124,7 +124,11 @@ def sent(stack, variables, index):
     stack.pop() #each
     size = stack.pop()
     #compile equation
-    stack.extend(["time", time, "/", size, nodes, "*", "*", ";"])
+    if type(time) == int:
+        stack.extend(["time", time, "/", size, nodes, "*", "*", ";"])
+    else:
+        if time == "once":
+            stack.extend([1, size, nodes, "*", "*", ";"])
     return index - subs
 
 def div(stack):
