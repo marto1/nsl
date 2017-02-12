@@ -138,13 +138,19 @@ def mult(stack):
     stack.append(second*first)
 
 def sep(stack):
-    res = stack.pop()
-    print "result from calculation:", res
+    return {"op": "print", "m": str(stack[-1])}
+
+def total(stack):
+    return 
 
 def run(stack, variables, index):
+    """
+    Takes definitions of variables, executes them and pulls down stats.
+    """
     time = stack.pop()
-    print time
-    context = {"/": div, "*": mult, ";": sep}
+    print "Total runtime:", time, "ms"
+    context = {"/": div, "*": mult, ";": sep, "total": total}
+    totalstack = []
     for name, entry in variables.iteritems():
         if "definition" not in entry:
             continue
@@ -156,7 +162,16 @@ def run(stack, variables, index):
             if type(word) == int:
                 tmpstack.append(word)
             else:
-                context[word](tmpstack)
+                res = context[word](tmpstack)
+                if res: #side effects are defined via return dicts
+                    if res["op"] == "print":
+                        m = "from calculation({}):".format(name)
+                        print m, res["m"]
+        s = sum(tmpstack)
+        print "total({}): {}".format(name, s)
+        totalstack.append(s)
+        del tmpstack[:]
+    print "total traffic used: {}".format(sum(totalstack))
     return index-2
 
 tokens = tokenize(f)
