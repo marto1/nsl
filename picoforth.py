@@ -40,7 +40,7 @@ words = {
     ".": print_pop,
     "+": add,
     "dup": dup,
-    ".": define_end,
+    ";": define_end,
     ":": lambda x: x,
     "words": print_words,
 }
