@@ -6,20 +6,28 @@ Should eventually replace the messy one in p2psim.
 import fileinput
 import sys
 
+
+# builtins
+
 def print_stack(stack, words):
     print stack
 
 def print_words(stack, words):
-    print words
+    print words.keys()
 
 def print_pop(stack, words):
     print stack.pop()
 
 def add(stack, words):
-    stack.append(stack.pop() + stack.pop())
+    first = stack.pop()
+    stack.append(stack.pop() + first)
 
 def dup(stack, words):
     stack.append(stack[-1])
+
+def negate(stack, words):
+    stack.append(-stack.pop())
+
 
 def define_end(stack, words):
     definition = []
@@ -34,7 +42,7 @@ def define_end(stack, words):
             definition.append(str(el))
     return 0
 
-stack = []
+
 words = {
     ".s": print_stack,
     ".": print_pop,
@@ -43,8 +51,14 @@ words = {
     ";": define_end,
     ":": lambda x: x,
     "words": print_words,
+    "negate": negate,
 }
+# end builtins
 
+# global stack
+stack = []
+
+# interpreter
 def execute(tokens, stack, words):
     ignore = False
     for token in tokens:
@@ -58,7 +72,7 @@ def execute(tokens, stack, words):
                     stack.append(token)
                     ignore = True
                     continue
-                if ignore and token != ".":
+                if ignore and token != ";":
                     stack.append(token)
                     continue
                 func = words[token]
@@ -69,7 +83,14 @@ def execute(tokens, stack, words):
                 if res != None:
                     ignore = False
 
-if __name__ == '__main__':    
+if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        with open(sys.argv[1], "r") as f:
+            for line in f:
+                line = line[:-1].rstrip()
+                tokens = line.split(" ")
+                execute(tokens, stack, words)
+
     while True:
         line = sys.stdin.readline()[:-1].rstrip()
         tokens = line.split(" ")
