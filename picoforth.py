@@ -54,6 +54,14 @@ def rotate(stack, words):
     el = stack.pop()
     stack.insert(-2, el)
 
+def swap(stack, words):
+    second = stack.pop()
+    first = stack.pop()
+    stack.append(second)
+    stack.append(first)
+
+
+
 def define_end(stack, words):
     definition = []
     while len(stack) > 0:
@@ -75,6 +83,7 @@ words = {
     "dup": dup,
     "over": over,
     "rot": rotate,
+    "swap": swap,
     ";": define_end,
     ":": lambda x: x,
     "words": print_words,
