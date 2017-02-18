@@ -28,6 +28,16 @@ def dup(stack, words):
 def negate(stack, words):
     stack.append(-stack.pop())
 
+def logic_and(stack, words):
+    stack.append(stack.pop() and stack.pop())
+
+def logic_or(stack, words):
+    second = stack.pop() #prevent short circuit
+    stack.append(stack.pop() or second)
+
+def bigger(stack, words):
+    second = stack.pop()
+    stack.append(-1 if second > stack.pop() else 0)
 
 def define_end(stack, words):
     definition = []
@@ -52,6 +62,9 @@ words = {
     ":": lambda x: x,
     "words": print_words,
     "negate": negate,
+    "and": logic_and,
+    "or": logic_or,
+    ">": bigger,
 }
 # end builtins
 
