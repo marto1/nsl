@@ -37,16 +37,22 @@ def logic_or(stack, words):
 
 def bigger(stack, words):
     second = stack.pop()
-    stack.append(-1 if second > stack.pop() else 0)
+    stack.append(-1 if stack.pop() > second else 0)
 
 def smaller(stack, words):
     second = stack.pop()
-    stack.append(-1 if second < stack.pop() else 0)
+    stack.append(-1 if stack.pop() < second else 0)
 
 def equal(stack, words):
     second = stack.pop()
     stack.append(-1 if second == stack.pop() else 0)
 
+def over(stack, words):
+    stack.append(stack[-2])
+
+def rotate(stack, words):
+    el = stack.pop()
+    stack.insert(-2, el)
 
 def define_end(stack, words):
     definition = []
@@ -67,6 +73,8 @@ words = {
     ".": print_pop,
     "+": add,
     "dup": dup,
+    "over": over,
+    "rot": rotate,
     ";": define_end,
     ":": lambda x: x,
     "words": print_words,
