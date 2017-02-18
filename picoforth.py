@@ -39,6 +39,15 @@ def bigger(stack, words):
     second = stack.pop()
     stack.append(-1 if second > stack.pop() else 0)
 
+def smaller(stack, words):
+    second = stack.pop()
+    stack.append(-1 if second < stack.pop() else 0)
+
+def equal(stack, words):
+    second = stack.pop()
+    stack.append(-1 if second == stack.pop() else 0)
+
+
 def define_end(stack, words):
     definition = []
     while len(stack) > 0:
@@ -65,6 +74,8 @@ words = {
     "and": logic_and,
     "or": logic_or,
     ">": bigger,
+    "<": smaller,
+    "=": equal,
 }
 # end builtins
 
