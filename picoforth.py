@@ -83,15 +83,15 @@ def execute(tokens, stack, words):
                 if res != None:
                     ignore = False
 
+def read_line_and_execute(line):
+    line = line[:-1].rstrip()
+    tokens = line.split(" ")
+    execute(tokens, stack, words)
+
 if __name__ == '__main__':
     if len(sys.argv) > 1:
         with open(sys.argv[1], "r") as f:
             for line in f:
-                line = line[:-1].rstrip()
-                tokens = line.split(" ")
-                execute(tokens, stack, words)
-
+                read_line_and_execute(line)
     while True:
-        line = sys.stdin.readline()[:-1].rstrip()
-        tokens = line.split(" ")
-        execute(tokens, stack, words)
+        read_line_and_execute(sys.stdin.readline())
