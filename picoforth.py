@@ -29,7 +29,8 @@ def negate(stack, words):
     stack.append(-stack.pop())
 
 def logic_and(stack, words):
-    stack.append(stack.pop() and stack.pop())
+    second = stack.pop() #prevent short circuit
+    stack.append(stack.pop() and second)
 
 def logic_or(stack, words):
     second = stack.pop() #prevent short circuit
@@ -60,6 +61,8 @@ def swap(stack, words):
     stack.append(second)
     stack.append(first)
 
+def invert(stack, words):
+    stack.append(-1 if stack.pop() == 0 else 0)
 
 
 def define_end(stack, words):
@@ -90,6 +93,7 @@ words = {
     "negate": negate,
     "and": logic_and,
     "or": logic_or,
+    "invert": invert,
     ">": bigger,
     "<": smaller,
     "=": equal,
