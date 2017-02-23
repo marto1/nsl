@@ -108,6 +108,10 @@ def func_help(stack, words):
     """take 'word from stack and print help for word"""
     print words[stack.pop()[1:]].func_doc
 
+def included(stack, words):
+    """Include and execute a script file ( a n -- )"""
+    read_file_and_execute(stack.pop())
+
 words = {
     ".s": print_stack,
     ".": print_pop,
@@ -129,6 +133,7 @@ words = {
     "help": func_help,
     "ssize": stack_size,
     "loop": loop,
+    "included": included,
 }
 # end builtins
 
@@ -165,10 +170,13 @@ def read_line_and_execute(line):
     tokens = line.split(" ")
     execute(tokens, stack, words)
 
-if __name__ == '__main__':
-    if len(sys.argv) > 1:
-        with open(sys.argv[1], "r") as f:
+def read_file_and_execute(filename):
+    with open(filename, "r") as f:
             for line in f:
                 read_line_and_execute(line)
+
+if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        read_file_and_execute(sys.argv[1])
     while True:
         read_line_and_execute(sys.stdin.readline())
