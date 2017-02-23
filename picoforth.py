@@ -12,6 +12,11 @@ def print_stack(stack, words):
     """print stack ( -- )"""
     print stack
 
+def stack_size(stack, words):
+    """put stack size on top ( -- n )"""
+    stack.append(len(stack))
+
+
 def print_words(stack, words):
     """print all defined words ( -- )"""
     print words.keys()
@@ -78,6 +83,12 @@ def invert(stack, words):
     """invert numerical value ( 0 -- -1 ; -1 -- 0 )"""
     stack.append(-1 if stack.pop() == 0 else 0)
 
+def loop(stack, words):
+    """take 'word and number, execute word n times  ( a n -- )"""
+    number = stack.pop()
+    word = stack.pop()[1:]
+    w_list = [word]*number
+    execute(w_list, stack, words)
 
 def define_end(stack, words):
     """end of definition."""
@@ -115,7 +126,9 @@ words = {
     ">": bigger,
     "<": smaller,
     "=": equal,
-    "help": func_help
+    "help": func_help,
+    "ssize": stack_size,
+    "loop": loop,
 }
 # end builtins
 
