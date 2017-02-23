@@ -67,10 +67,15 @@ def over(stack, words):
     """copy 2nd element to top ( a b -- a b a )"""
     stack.append(stack[-2])
 
-def rotate(stack, words):
+def rrotate(stack, words):
     """place first element to 3rd place ( a b c -- c b a )"""
     el = stack.pop()
     stack.insert(-2, el)
+
+def rotate(stack, words):
+    """place 3rd element on top ( a b c -- c b a )"""
+    el = stack.pop(-3)
+    stack.append(el)
 
 def swap(stack, words):
     """swap 2 topmost elements ( a b -- b a )"""
@@ -118,6 +123,7 @@ words = {
     "+": add,
     "dup": dup,
     "over": over,
+    "rrot": rrotate,
     "rot": rotate,
     "swap": swap,
     ";": define_end,
