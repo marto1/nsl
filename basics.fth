@@ -6,3 +6,4 @@
 : True -1 ;
 : False 0 ;
 : 0> 0 > ;
+: empty '. ssize 1 - loop ;
