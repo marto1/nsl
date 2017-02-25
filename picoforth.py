@@ -3,27 +3,25 @@ General purpose forth implemented in python
 
 Should eventually replace the messy one in p2psim.
 """
+from __future__ import print_function as printf
 import fileinput
 import sys
 
+
+#docs
+
+"""put stack size on top ( -- n )"""
+"""print all defined words ( -- )"""
+"""print stack ( -- )"""
+"""take 'word from stack and print help for word"""
+
+#end docs
+
 # builtins
-
-def print_stack(stack, words):
-    """print stack ( -- )"""
-    print stack
-
-def stack_size(stack, words):
-    """put stack size on top ( -- n )"""
-    stack.append(len(stack))
-
-
-def print_words(stack, words):
-    """print all defined words ( -- )"""
-    print words.keys()
 
 def print_pop(stack, words):
     """pop top and print it ( a -- )"""
-    print stack.pop()
+    print (stack.pop())
 
 def add(stack, words):
     """add two numeric values ( n1 n2 -- n1+n2 )"""
@@ -107,18 +105,31 @@ def define_end(stack, words):
             break
         else:
             definition.append(str(el))
+    return 0    
+
+def strings(stack, words):
+    """quote string ( a b.. -- a )"""
+    newstr = []
+    while len(stack) > 0:
+        el = stack.pop()
+        if type(el) == str and el == "\"":
+            break
+        else:
+            newstr.insert(0, el)
+    stack.append(" ".join(newstr))
     return 0
 
-def func_help(stack, words):
-    """take 'word from stack and print help for word"""
-    print words[stack.pop()[1:]].func_doc
-
-def included(stack, words):
-    """Include and execute a script file ( a n -- )"""
-    read_file_and_execute(stack.pop())
-
+def exec_external(stack, words):
+    """Execute a python statement and return to stack if not None"""
+    cmd = 'res = {}'.format(stack.pop())
+    code = compile(cmd, "script", "exec")
+    ns = dict(globals())
+    exec(code, ns)
+    if ns["res"]: #only if its not None we want it on the stack
+        stack.append(ns["res"])
+    
 words = {
-    ".s": print_stack,
+    # ".s": print_stack,
     ".": print_pop,
     "+": add,
     "dup": dup,
@@ -128,7 +139,6 @@ words = {
     "swap": swap,
     ";": define_end,
     ":": lambda x: x,
-    "words": print_words,
     "negate": negate,
     "and": logic_and,
     "or": logic_or,
@@ -136,10 +146,9 @@ words = {
     ">": bigger,
     "<": smaller,
     "=": equal,
-    "help": func_help,
-    "ssize": stack_size,
     "loop": loop,
-    "included": included,
+    "exec": exec_external,
+    "\"": strings,
 }
 # end builtins
 
@@ -156,11 +165,11 @@ def execute(tokens, stack, words):
             if token not in words:
                 stack.append(token)
             else:
-                if token == ":":
+                if token == ":" or (token == "\"" and not ignore):
                     stack.append(token)
                     ignore = True
                     continue
-                if ignore and token != ";":
+                if ignore and token not in [";", "\""]:
                     stack.append(token)
                     continue
                 func = words[token]

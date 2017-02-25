@@ -1,3 +1,8 @@
+: included read_file_and_execute(stack.pop()) exec ;
+: .s print(stack) exec ;
+: words print(words.keys()) exec ;
+: help print(words[stack.pop()[1:]].func_doc) exec ;
+: ssize len(stack) exec ;
 : - negate + ;
 : ++ over + ;
 : * 0 '++ rot 1 - loop + ;
