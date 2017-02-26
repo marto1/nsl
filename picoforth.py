@@ -11,7 +11,7 @@ stack 1 print   print(stack)
    '  '-- number of items to pull from the stack
    ' check stack type, is variable so put on stack
 """
-from __future__ import print_function as printf
+from __future__ import print_function
 from time import time, sleep
 import fileinput
 import sys
@@ -178,6 +178,12 @@ def execute(tokens, stack, words):
                 if not ignore and (isbuilt or token in glob):
                     if isbuilt or callable(glob[token]):
                         argcount = stack.pop()
+                        if argcount == -1:
+                            if isbuilt:
+                                stack.append(builtins[token])
+                            else:
+                                stack.append(glob[token])
+                            continue
                         args = [stack.pop() for i in range(argcount)]
                         if isbuilt:
                             res = builtins[token](*args)
