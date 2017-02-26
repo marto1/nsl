@@ -1,8 +1,7 @@
-: included read_file_and_execute(stack.pop()) exec ;
-: .s print(stack) exec ;
-: words print(words.keys()) exec ;
-: help print(words[stack.pop()[1:]].func_doc) exec ;
-: ssize len(stack) exec ;
+: included 1 read_file_and_execute ;
+: .s stack 1 print ;
+: words  global_words.keys() exec 1 print ;
+: ssize stack 1 len ;
 : - negate + ;
 : ++ over + ;
 : * 0 '++ rot 1 - loop + ;
@@ -10,7 +9,7 @@
 : >= 2dup > rot = or ;
 : <= 2dup < rot = or ;
 : xor 2dup and invert rrot or and ;
-: True -1 ;
-: False 0 ;
+: true -1 ;
+: false 0 ;
 : 0> 0 > ;
 : empty '. ssize 1 - loop ;

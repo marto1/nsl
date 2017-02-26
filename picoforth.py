@@ -2,10 +2,20 @@
 General purpose forth implemented in python
 
 Should eventually replace the messy one in p2psim.
+
+Forth           Python
+stack 1 print   print(stack)
+   '  '  '
+   '  '  '
+   '  '  ' check print type, function so consume arguments and execute
+   '  '-- number of items to pull from the stack
+   ' check stack type, is variable so put on stack
 """
 from __future__ import print_function as printf
+from time import time, sleep
 import fileinput
 import sys
+import inspect
 
 
 #docs
@@ -123,13 +133,12 @@ def exec_external(stack, words):
     """Execute a python statement and return to stack if not None"""
     cmd = 'res = {}'.format(stack.pop())
     code = compile(cmd, "script", "exec")
-    ns = dict(globals())
+    ns = dict(glob)
     exec(code, ns)
     if ns["res"]: #only if its not None we want it on the stack
         stack.append(ns["res"])
     
-words = {
-    # ".s": print_stack,
+global_words = {
     ".": print_pop,
     "+": add,
     "dup": dup,
@@ -155,6 +164,8 @@ words = {
 # global stack
 stack = []
 
+glob = globals()
+builtins = dict(glob['__builtins__'].__dict__)
 # interpreter
 def execute(tokens, stack, words):
     ignore = False
@@ -163,6 +174,20 @@ def execute(tokens, stack, words):
             stack.append(int(token))
         else:
             if token not in words:
+                isbuilt = token in builtins
+                if not ignore and (isbuilt or token in glob):
+                    if isbuilt or callable(glob[token]):
+                        argcount = stack.pop()
+                        args = [stack.pop() for i in range(argcount)]
+                        if isbuilt:
+                            res = builtins[token](*args)
+                        else:
+                            res = glob[token](*args)
+                        if res != None:
+                            stack.append(res)
+                    else:
+                        stack.append(glob[token])
+                    continue
                 stack.append(token)
             else:
                 if token == ":" or (token == "\"" and not ignore):
@@ -183,7 +208,7 @@ def execute(tokens, stack, words):
 def read_line_and_execute(line):
     line = line[:-1].rstrip()
     tokens = line.split(" ")
-    execute(tokens, stack, words)
+    execute(tokens, stack, global_words)
 
 def read_file_and_execute(filename):
     with open(filename, "r") as f:
