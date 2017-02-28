@@ -3,13 +3,15 @@ General purpose forth implemented in python
 
 Should eventually replace the messy one in p2psim.
 
-Forth           Python
-stack 1 print   print(stack)
+Forth                          Python
+stack 1 print                  print(stack)
    '  '  '
    '  '  '
    '  '  ' check print type, function so consume arguments and execute
    '  '-- number of items to pull from the stack
    ' check stack type, is variable so put on stack
+" Hello world! " 1 print       print("Hello World!")
+
 """
 from __future__ import print_function
 from time import time, sleep
@@ -17,13 +19,11 @@ import fileinput
 import sys
 import inspect
 
-
 #docs
 
-"""put stack size on top ( -- n )"""
-"""print all defined words ( -- )"""
-"""print stack ( -- )"""
-"""take 'word from stack and print help for word"""
+" put stack size on top ( -- n ) " 
+" print all defined words ( -- ) " 
+" print stack ( -- ) " 
 
 #end docs
 
@@ -117,17 +117,6 @@ def define_end(stack, words):
             definition.append(str(el))
     return 0    
 
-def strings(stack, words):
-    """quote string ( a b.. -- a )"""
-    newstr = []
-    while len(stack) > 0:
-        el = stack.pop()
-        if type(el) == str and el == "\"":
-            break
-        else:
-            newstr.insert(0, el)
-    stack.append(" ".join(newstr))
-    return 0
 
 def exec_external(stack, words):
     """Execute a python statement and return to stack if not None"""
@@ -137,6 +126,36 @@ def exec_external(stack, words):
     exec(code, ns)
     if ns["res"]: #only if its not None we want it on the stack
         stack.append(ns["res"])
+
+def call(stack, words):
+    """call function recorded on the stack with arguments ( a n -- )"""
+    argcount = stack.pop()
+    func = stack.pop()
+    if argcount == -1: #FIXME
+        stack.append(func)
+        return
+    args = [stack.pop() for i in range(argcount)]
+    args.reverse()
+    res = func(*args)
+    if res != None:
+        stack.append(res)
+
+def call_python(token, argcount, isbuilt):
+    if argcount == -1:
+        if isbuilt:
+            stack.append(builtins[token])
+        else:
+            stack.append(glob[token])
+        return
+    args = [stack.pop() for i in range(argcount)]
+    args.reverse()
+    if isbuilt:
+        res = builtins[token](*args)
+    else:
+        res = glob[token](*args)
+    if res != None:
+        stack.append(res)
+
     
 global_words = {
     ".": print_pop,
@@ -157,7 +176,7 @@ global_words = {
     "=": equal,
     "loop": loop,
     "exec": exec_external,
-    "\"": strings,
+    "call": call,
 }
 # end builtins
 
@@ -168,39 +187,40 @@ glob = globals()
 builtins = dict(glob['__builtins__'].__dict__)
 # interpreter
 def execute(tokens, stack, words):
+    quoted_stack = []
+    quote_flag = False
     ignore = False
     for token in tokens:
         if token.lstrip("-").isdigit():
             stack.append(int(token))
         else:
+            if token == "\"":
+                if quote_flag:
+                    stack.append(" ".join(quoted_stack))
+                    quote_flag = False
+                else:
+                    quoted_stack = []
+                    quote_flag = True
+                continue
+            if quote_flag:
+                quoted_stack.insert(0, token)
+                continue
             if token not in words:
                 isbuilt = token in builtins
                 if not ignore and (isbuilt or token in glob):
                     if isbuilt or callable(glob[token]):
                         argcount = stack.pop()
-                        if argcount == -1:
-                            if isbuilt:
-                                stack.append(builtins[token])
-                            else:
-                                stack.append(glob[token])
-                            continue
-                        args = [stack.pop() for i in range(argcount)]
-                        if isbuilt:
-                            res = builtins[token](*args)
-                        else:
-                            res = glob[token](*args)
-                        if res != None:
-                            stack.append(res)
+                        call_python(token, argcount, isbuilt)
                     else:
                         stack.append(glob[token])
                     continue
                 stack.append(token)
             else:
-                if token == ":" or (token == "\"" and not ignore):
+                if token == ":":
                     stack.append(token)
                     ignore = True
                     continue
-                if ignore and token not in [";", "\""]:
+                if ignore and token != ";":
                     stack.append(token)
                     continue
                 func = words[token]

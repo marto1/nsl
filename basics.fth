@@ -1,6 +1,6 @@
 : included 1 read_file_and_execute ;
 : .s stack 1 print ;
-: words  global_words.keys() exec 1 print ;
+: words global_words " keys " 2 getattr 0 call 1 print ;
 : ssize stack 1 len ;
 : - negate + ;
 : ++ over + ;
