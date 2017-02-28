@@ -13,3 +13,4 @@
 : false 0 ;
 : 0> 0 > ;
 : empty '. ssize 1 - loop ;
+: .item swap __getitem__ 2 getattr 1 call ;

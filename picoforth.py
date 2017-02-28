@@ -182,29 +182,30 @@ global_words = {
 
 # global stack
 stack = []
-
 glob = globals()
 builtins = dict(glob['__builtins__'].__dict__)
+quoted_stack = []
+quote_flag = False
+ignore = False
+
 # interpreter
 def execute(tokens, stack, words):
-    quoted_stack = []
-    quote_flag = False
-    ignore = False
+    global quoted_stack, quote_flag, ignore
     for token in tokens:
+        if token == "\"":
+            if quote_flag:
+                stack.append(" ".join(quoted_stack))
+                quote_flag = False
+            else:
+                quoted_stack = []
+                quote_flag = True
+            continue
+        if quote_flag:
+            quoted_stack.append(token)
+            continue
         if token.lstrip("-").isdigit():
             stack.append(int(token))
         else:
-            if token == "\"":
-                if quote_flag:
-                    stack.append(" ".join(quoted_stack))
-                    quote_flag = False
-                else:
-                    quoted_stack = []
-                    quote_flag = True
-                continue
-            if quote_flag:
-                quoted_stack.insert(0, token)
-                continue
             if token not in words:
                 isbuilt = token in builtins
                 if not ignore and (isbuilt or token in glob):
