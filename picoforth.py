@@ -140,6 +140,10 @@ def call(stack, words):
     if res != None:
         stack.append(res)
 
+def none(stack, words):
+    """None constant"""
+    stack.append(None)
+
 def call_python(token, argcount, isbuilt):
     if argcount == -1:
         if isbuilt:
@@ -177,6 +181,7 @@ global_words = {
     "loop": loop,
     "exec": exec_external,
     "call": call,
+    "None": none,
 }
 # end builtins
 
