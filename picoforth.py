@@ -103,9 +103,12 @@ def loop(stack, words):
     w_list = [word]*number
     execute(w_list, stack, words)
 
+class WordList(list):
+    pass
+
 def define_end(stack, words):
     """end of definition."""
-    definition = []
+    definition = WordList()
     while len(stack) > 0:
         el = stack.pop()
         if type(el) == str and el == ":":
@@ -230,7 +233,7 @@ def execute(tokens, stack, words):
                     stack.append(token)
                     continue
                 func = words[token]
-                if type(func) == list:
+                if type(func) == WordList:
                     res = execute(func, stack, words)
                 else:
                     res = func(stack, words)
