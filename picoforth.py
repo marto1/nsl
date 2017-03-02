@@ -247,8 +247,10 @@ def read_line_and_execute(line):
 
 def read_file_and_execute(filename):
     with open(filename, "r") as f:
-            for line in f:
-                read_line_and_execute(line)
+        tokens = []
+        for line in f:
+            tokens.extend(line[:-1].rstrip().split(" "))
+        execute(tokens, stack, global_words)
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
