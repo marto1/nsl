@@ -146,8 +146,8 @@ def call_python(token, argcount, isbuilt):
         else:
             stack.append(glob[token])
         return
-    args = [stack.pop() for i in range(argcount)]
-    args.reverse()
+    args = stack[-argcount:]
+    del stack[-argcount:]
     if isbuilt:
         res = builtins[token](*args)
     else:
@@ -183,7 +183,11 @@ global_words = {
 # global stack
 stack = []
 glob = globals()
-builtins = dict(glob['__builtins__'].__dict__)
+b = glob['__builtins__']
+if type(b) == dict: #profilers change module to dict
+    builtins = dict(b)
+else:
+    builtins = dict(b.__dict__)
 quoted_stack = []
 quote_flag = False
 ignore = False
