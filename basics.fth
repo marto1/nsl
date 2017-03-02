@@ -7,8 +7,11 @@
 '.doc " set documentation for word ('word doc -- ) " .doc
 : included 1 read_file_and_execute ;
 : .s stack 1 print ;
+'.s " print stack ( -- ) " .doc
 : words global_words " keys " 2 getattr 0 call 1 print ;
+'words " print all defined words ( -- ) " .doc
 : ssize stack 1 len ;
+'ssize " put stack size on top ( -- n ) " .doc
 : - negate + ;
 : ++ over + ;
 : * 0 '++ rot 1 - loop + ;

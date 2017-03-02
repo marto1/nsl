@@ -19,14 +19,6 @@ import fileinput
 import sys
 import inspect
 
-#docs
-
-" put stack size on top ( -- n ) " 
-" print all defined words ( -- ) " 
-" print stack ( -- ) " 
-
-#end docs
-
 # builtins
 
 def print_pop(stack, words):
