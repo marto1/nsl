@@ -10,8 +10,8 @@
 '.s " print stack ( -- ) " .doc
 : words global_words " keys " 2 getattr 0 call 1 print ;
 'words " print all defined words ( -- ) " .doc
-: ssize stack 1 len ;
-'ssize " put stack size on top ( -- n ) " .doc
+: depth stack 1 len ;
+'depth " put stack size on top ( -- +n ) " .doc
 : - negate + ;
 : ++ over + ;
 : * 0 '++ rot 1 - loop + ;
@@ -22,7 +22,9 @@
 : true -1 ;
 : false 0 ;
 : 0> 0 > ;
-: empty '. ssize 1 - loop ;
+: empty '. depth 1 - loop ;
 : .help 1 None .slice get-word func_doc 2 getattr 1 print ;
 '.help " get documention for word ('word -- doc) " .doc
 : bye 0 exit ;
+: drop stack " pop " 2 getattr 1 call ;
+: nip -2 stack " __delitem__ " 2 getattr 1 call ;
