@@ -23,6 +23,7 @@
 : false 0 ;
 : 0> 0 > ;
 : empty '. depth 1 - loop ;
+: clearstack None None 2 slice stack " __delitem__ " 2 getattr 1 call ;
 : .help 1 None .slice get-word func_doc 2 getattr 1 print ;
 '.help " get documention for word ('word -- doc) " .doc
 : bye 0 exit ;
