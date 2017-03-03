@@ -14,11 +14,17 @@
 'depth " put stack size on top ( -- +n ) " .doc
 : - negate + ;
 : ++ over + ;
-: * 0 '++ rot 1 - loop + ;
+: * op " mul " 2 getattr 2 call ;
 : 2dup over over ;
-: >= 2dup > rot = or ;
-: <= 2dup < rot = or ;
-: xor 2dup and invert rrot or and ;
+: = op " eq " 2 getattr 2 call 1 int negate ;
+'= " equality test ( a b -- -1/0 ) " .doc
+: > op " gt " 2 getattr 2 call 1 int negate ;
+'> " bigger than test ( a b -- -1/0 ) " .doc
+: < op " lt " 2 getattr 2 call 1 int negate ;
+'< " smaller than test ( a b -- -1/0 ) " .doc
+: >= 2dup > rrot = or ;
+: <= 2dup < rrot = or ;
+: xor op " __xor__ " 2 getattr 2 call 1 int negate ;
 : true -1 ;
 : false 0 ;
 : 0> 0 > ;

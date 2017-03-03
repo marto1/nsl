@@ -18,6 +18,7 @@ from time import time, sleep
 import fileinput
 import sys
 import inspect
+import operator as op
 
 # builtins
 
@@ -47,21 +48,6 @@ def logic_or(stack, words):
     """logical or ( a b -- -1/0 )"""
     second = stack.pop() #prevent short circuit
     stack.append(stack.pop() or second)
-
-def bigger(stack, words):
-    """bigger than test ( a b -- -1/0 )"""
-    second = stack.pop()
-    stack.append(-1 if stack.pop() > second else 0)
-
-def smaller(stack, words):
-    """smaller than test ( a b -- -1/0 )"""
-    second = stack.pop()
-    stack.append(-1 if stack.pop() < second else 0)
-
-def equal(stack, words):
-    """equality test ( a b -- -1/0 )"""
-    second = stack.pop()
-    stack.append(-1 if second == stack.pop() else 0)
 
 def over(stack, words):
     """copy 2nd element to top ( a b -- a b a )"""
@@ -95,7 +81,7 @@ def loop(stack, words):
     w_list = [word]*number
     execute(w_list, stack, words)
 
-class WordList(list):
+class WordList(list): #cannot add func_doc to list
     pass
 
 def define_end(stack, words):
@@ -170,9 +156,6 @@ global_words = {
     "and": logic_and,
     "or": logic_or,
     "invert": invert,
-    ">": bigger,
-    "<": smaller,
-    "=": equal,
     "loop": loop,
     "exec": exec_external,
     "call": call,
