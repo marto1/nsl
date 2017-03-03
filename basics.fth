@@ -12,8 +12,9 @@
 'words " print all defined words ( -- ) " .doc
 : depth stack 1 len ;
 'depth " put stack size on top ( -- +n ) " .doc
+: + op " __add__ " 2 getattr 2 call ;
+'+ " add two numeric values ( n1 n2 -- n1+n2 ) " .doc
 : - negate + ;
-: ++ over + ;
 : * op " mul " 2 getattr 2 call ;
 : 2dup over over ;
 : = op " eq " 2 getattr 2 call 1 int negate ;

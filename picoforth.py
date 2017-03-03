@@ -26,11 +26,6 @@ def print_pop(stack, words):
     """pop top and print it ( a -- )"""
     print (stack.pop())
 
-def add(stack, words):
-    """add two numeric values ( n1 n2 -- n1+n2 )"""
-    first = stack.pop()
-    stack.append(stack.pop() + first)
-
 def dup(stack, words):
     """duplicate top ( a -- a a )"""
     stack.append(stack[-1])
@@ -144,7 +139,6 @@ def call_python(token, argcount, isbuilt):
     
 global_words = {
     ".": print_pop,
-    "+": add,
     "dup": dup,
     "over": over,
     "rrot": rrotate,
