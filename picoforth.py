@@ -65,10 +65,6 @@ def swap(stack, words):
     stack.append(second)
     stack.append(first)
 
-def invert(stack, words):
-    """invert numerical value ( 0 -- -1 ; -1 -- 0 )"""
-    stack.append(-1 if stack.pop() == 0 else 0)
-
 def loop(stack, words):
     """take 'word and number, execute word n times  ( a n -- )"""
     number = stack.pop()
@@ -149,7 +145,6 @@ global_words = {
     "negate": negate,
     "and": logic_and,
     "or": logic_or,
-    "invert": invert,
     "loop": loop,
     "exec": exec_external,
     "call": call,

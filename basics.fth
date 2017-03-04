@@ -26,6 +26,8 @@
 : >= 2dup > rrot = or ;
 : <= 2dup < rrot = or ;
 : xor op " __xor__ " 2 getattr 2 call 1 int negate ;
+: invert op " __invert__ " 2 getattr 2 call ;
+'invert " invert numerical value ( 0 -- -1 ; -1 -- 0 ) " .doc
 : true -1 ;
 : false 0 ;
 : 0> 0 > ;
