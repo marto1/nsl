@@ -120,7 +120,7 @@ def none(stack, words):
     """None constant"""
     stack.append(None)
 
-def call_python(token, argcount, isbuilt):
+def call_python(token, stack, argcount, isbuilt):
     if argcount == -1:
         if isbuilt:
             stack.append(builtins[token])
@@ -192,7 +192,7 @@ def execute(tokens, stack, words):
                 if not ignore and (isbuilt or token in glob):
                     if isbuilt or callable(glob[token]):
                         argcount = stack.pop()
-                        call_python(token, argcount, isbuilt)
+                        call_python(token, stack, argcount, isbuilt)
                     else:
                         stack.append(glob[token])
                     continue
