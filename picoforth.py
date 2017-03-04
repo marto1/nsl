@@ -110,8 +110,8 @@ def call(stack, words):
     if argcount == -1: #FIXME
         stack.append(func)
         return
-    args = [stack.pop() for i in range(argcount)]
-    args.reverse()
+    args = stack[-argcount:]
+    del stack[-argcount:]
     res = func(*args)
     if res != None:
         stack.append(res)

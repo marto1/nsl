@@ -44,12 +44,32 @@ operations = [
     (["4", "5", ">="], 0),
     (["5", "5", ">="], -1),
     (["6", "5", ">="], -1),
+    (["true"], -1),
+    (["false"], 0),
+    (["2", "0>"], -1),
+    (["0", "0>"], 0),
+    (["-1", "0>"], 0),
+]
+
+stack_op = [
+    # (["6", "5", "nip"], [5]),
+    (["6", "5", "dup"], [6, 5, 5]),
+    (["6", "5", "over"], [6, 5, 6]),
+    (["6", "5", "swap"], [5, 6]),
+    (["1", "negate"], [-1]),
+    (["None"], [None]),
 ]
 
 read_file_and_execute("basics.fth")
 
 @pytest.mark.parametrize("tokens, result", operations)
-def test_next_date(tokens, result):
+def test_tos(tokens, result):
     stack = []
     execute(tokens, stack, global_words)
     assert stack[-1] == result
+
+@pytest.mark.parametrize("tokens, result", stack_op)
+def test_stack_op(tokens, result):
+    stack = []
+    execute(tokens, stack, global_words)
+    assert stack == result
