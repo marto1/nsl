@@ -34,16 +34,6 @@ def negate(stack, words):
     """negate numeric value ( n -- -n )"""
     stack.append(-stack.pop())
 
-def logic_and(stack, words):
-    """logical and ( a b -- -1/0 )"""
-    second = stack.pop() #prevent short circuit
-    stack.append(stack.pop() and second)
-
-def logic_or(stack, words):
-    """logical or ( a b -- -1/0 )"""
-    second = stack.pop() #prevent short circuit
-    stack.append(stack.pop() or second)
-
 def over(stack, words):
     """copy 2nd element to top ( a b -- a b a )"""
     stack.append(stack[-2])
@@ -132,7 +122,6 @@ def call_python(token, stack, argcount, isbuilt):
     if res != None:
         stack.append(res)
 
-    
 global_words = {
     ".": print_pop,
     "dup": dup,
@@ -143,8 +132,6 @@ global_words = {
     ";": define_end,
     ":": lambda x: x,
     "negate": negate,
-    "and": logic_and,
-    "or": logic_or,
     "loop": loop,
     "exec": exec_external,
     "call": call,

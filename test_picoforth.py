@@ -23,6 +23,15 @@ operations = [
     (["10", "2", "*"], 20),
     (["-2", "-3", "*"], 6),
     (["2", "-3", "*"], -6),
+    (["1", "1", "and"], -1),
+    (["0", "0", "and"], 0),
+    (["1", "0", "and"], 0),
+    (["1", "1", "or"], -1),
+    (["0", "0", "or"], 0),
+    (["1", "0", "or"], -1),
+    (["1", "1", "xor"], 0),
+    (["1", "1", "xor"], 0),
+    (["1", "1", "xor"], 0),
     (["1", "1", "xor"], 0),
     (["1", "0", "xor"], -1),
     (["0", "0", "xor"], 0),
@@ -69,6 +78,7 @@ read_file_and_execute("basics.fth")
 def test_tos(tokens, result):
     stack = []
     execute(tokens, stack, global_words)
+    print stack
     assert stack[-1] == result
 
 @pytest.mark.parametrize("tokens, result", stack_op)
