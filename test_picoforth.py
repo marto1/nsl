@@ -70,9 +70,9 @@ stack_op = [
     (["6", "5", "swap"], [5, 6]),
     (["1", "negate"], [-1]),
     (["none"], [None]),
-    # (["-1", "invert"], [0]),
-    # (["0", "invert"], [-1]),
-    # (["20", "invert"], [-21]),
+    (["-1", "invert"], [0]),
+    (["0", "invert"], [-1]),
+    (["20", "invert"], [-21]),
 ]
 
 g_stack, g_words = [], dict(global_words)
