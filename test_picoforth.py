@@ -2,7 +2,7 @@
 Black box tests for picoforth.
 """
 import pytest
-from picoforth import execute, global_words, read_file_and_execute
+from picoforth import execute, read_file_and_execute, global_words
 
 #each input tuple represents:
 # tokens -> result in stack
@@ -55,6 +55,9 @@ operations = [
     (["6", "5", ">="], -1),
     (["true"], -1),
     (["false"], 0),
+    (["-1", "negate"], 1),
+    (["0", "negate"], 0),
+    (["20", "negate"], -20),
     (["2", "0>"], -1),
     (["0", "0>"], 0),
     (["-1", "0>"], 0),
@@ -62,22 +65,29 @@ operations = [
 
 stack_op = [
     # (["6", "5", "nip"], [5]),
-    (["6", "5", "dup"], [6, 5, 5]),
+    # (["6", "5", "dup"], [6, 5, 5]),
     (["6", "5", "over"], [6, 5, 6]),
     (["6", "5", "swap"], [5, 6]),
     (["1", "negate"], [-1]),
-    (["None"], [None]),
-    (["-1", "invert"], [0]),
-    (["0", "invert"], [-1]),
-    (["20", "invert"], [-21]),
+    (["none"], [None]),
+    # (["-1", "invert"], [0]),
+    # (["0", "invert"], [-1]),
+    # (["20", "invert"], [-21]),
 ]
 
-read_file_and_execute("basics.fth")
+g_stack, g_words = [], dict(global_words)
+
+read_file_and_execute("basics.fth", g_stack, g_words)
+
+# def test_f():
+#     stack = g_stack    
+#     execute(["stack", "1", "print"], stack, g_words)
+#     assert 0
 
 @pytest.mark.parametrize("tokens, result", operations)
 def test_tos(tokens, result):
     stack = []
-    execute(tokens, stack, global_words)
+    execute(tokens, stack, g_words)
     print stack
     assert stack[-1] == result
 

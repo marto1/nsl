@@ -26,15 +26,15 @@ def print_pop(stack, words):
     """pop top and print it ( a -- )"""
     print (stack.pop())
 
-def dup(stack, words):
-    """duplicate top ( a -- a a )"""
-    stack.append(stack[-1])
+# def dup(stack, words):
+#     """duplicate top ( a -- a a )"""
+#     stack.append(stack[-1])
 
-def negate(stack, words):
+def negate_func(stack, words):
     """negate numeric value ( n -- -n )"""
     stack.append(-stack.pop())
 
-def over(stack, words):
+def over_func(stack, words):
     """copy 2nd element to top ( a b -- a b a )"""
     stack.append(stack[-2])
 
@@ -48,14 +48,14 @@ def rotate(stack, words):
     el = stack.pop(-3)
     stack.append(el)
 
-def swap(stack, words):
+def swap_func(stack, words):
     """swap 2 topmost elements ( a b -- b a )"""
     second = stack.pop()
     first = stack.pop()
     stack.append(second)
     stack.append(first)
 
-def loop(stack, words):
+def loop_func(stack, words):
     """take 'word and number, execute word n times  ( a n -- )"""
     number = stack.pop()
     word = stack.pop()[1:]
@@ -89,7 +89,7 @@ def exec_external(stack, words):
     if ns["res"]: #only if its not None we want it on the stack
         stack.append(ns["res"])
 
-def call(stack, words):
+def call_func(stack, words):
     """call function recorded on the stack with arguments ( a n -- )"""
     argcount = stack.pop()
     func = stack.pop()
@@ -102,7 +102,7 @@ def call(stack, words):
     if res != None:
         stack.append(res)
 
-def none(stack, words):
+def none_func(stack, words):
     """None constant"""
     stack.append(None)
 
@@ -116,31 +116,32 @@ def call_python(token, stack, argcount, isbuilt):
     args = stack[-argcount:]
     del stack[-argcount:]
     if isbuilt:
+        # print("{}! {} {} {}".format(token , args, argcount, len(stack)))
         res = builtins[token](*args)
-    else:
+    else:        
         res = glob[token](*args)
     if res != None:
         stack.append(res)
 
 global_words = {
     ".": print_pop,
-    "dup": dup,
-    "over": over,
+    # "dup": dup,
+    "over": over_func,
     "rrot": rrotate,
     "rot": rotate,
-    "swap": swap,
+    "swap": swap_func,
     ";": define_end,
     ":": lambda x: x,
-    "negate": negate,
-    "loop": loop,
+    "negate": negate_func,
+    "loop": loop_func,
     "exec": exec_external,
-    "call": call,
-    "None": none,
+    "call": call_func,
+    "none": none_func,
 }
 # end builtins
 
 # global stack
-stack = []
+global_stack = []
 glob = globals()
 b = glob['__builtins__']
 if type(b) == dict: #profilers change module to dict
@@ -152,63 +153,68 @@ quote_flag = False
 ignore = False
 
 # interpreter
-def execute(tokens, stack, words):
+def execute(tokens, lstack, words):
     global quoted_stack, quote_flag, ignore
+    glob["stack"] = lstack
+    glob["global_words"] = words
     for token in tokens:
         if token == "\"":
             if quote_flag:
-                stack.append(" ".join(quoted_stack))
+                lstack.append(" ".join(quoted_lstack))
                 quote_flag = False
             else:
-                quoted_stack = []
+                quoted_lstack = []
                 quote_flag = True
             continue
         if quote_flag:
-            quoted_stack.append(token)
+            quoted_lstack.append(token)
             continue
         if token.lstrip("-").isdigit():
-            stack.append(int(token))
+            lstack.append(int(token))
         else:
             if token not in words:
                 isbuilt = token in builtins
                 if not ignore and (isbuilt or token in glob):
                     if isbuilt or callable(glob[token]):
-                        argcount = stack.pop()
-                        call_python(token, stack, argcount, isbuilt)
+                        argcount = lstack.pop()
+                        call_python(token, lstack, argcount, isbuilt)
                     else:
-                        stack.append(glob[token])
+                        lstack.append(glob[token])
                     continue
-                stack.append(token)
+                lstack.append(token)
             else:
                 if token == ":":
-                    stack.append(token)
+                    lstack.append(token)
                     ignore = True
                     continue
                 if ignore and token != ";":
-                    stack.append(token)
+                    lstack.append(token)
                     continue
                 func = words[token]
                 if type(func) == WordList:
-                    res = execute(func, stack, words)
+                    res = execute(func, lstack, words)
                 else:
-                    res = func(stack, words)
+                    res = func(lstack, words)
                 if res != None:
                     ignore = False
 
-def read_line_and_execute(line):
+def read_line_and_execute(line, stack, words):
     line = line[:-1].rstrip()
     tokens = line.split(" ")
-    execute(tokens, stack, global_words)
+    execute(tokens, stack, words)
 
-def read_file_and_execute(filename):
+def read_file_and_execute(filename, stack, words):
     with open(filename, "r") as f:
         tokens = []
         for line in f:
             tokens.extend(line[:-1].rstrip().split(" "))
-        execute(tokens, stack, global_words)
+        execute(tokens, stack, words)
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
-        read_file_and_execute(sys.argv[1])
+        read_file_and_execute(sys.argv[1], global_stack, global_words)
     while True:
-        read_line_and_execute(sys.stdin.readline())
+        read_line_and_execute(
+            sys.stdin.readline(),
+            global_stack,
+            global_words)
