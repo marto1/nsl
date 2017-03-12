@@ -64,8 +64,8 @@ operations = [
 ]
 
 stack_op = [
-    # (["6", "5", "nip"], [5]),
-    # (["6", "5", "dup"], [6, 5, 5]),
+    (["6", "5", "nip"], [5]),
+    (["6", "5", "dup"], [6, 5, 5]),
     (["6", "5", "over"], [6, 5, 6]),
     (["6", "5", "swap"], [5, 6]),
     (["1", "negate"], [-1]),
@@ -94,5 +94,5 @@ def test_tos(tokens, result):
 @pytest.mark.parametrize("tokens, result", stack_op)
 def test_stack_op(tokens, result):
     stack = []
-    execute(tokens, stack, global_words)
+    execute(tokens, stack, g_words)
     assert stack == result
