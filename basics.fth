@@ -1,3 +1,5 @@
+: negate op " __neg__ " 2 getattr 1 call ;
+'negate " negate numeric value ( n -- -n ) " .doc
 : .item swap __getitem__ 2 getattr 1 call ;
 : .slice 2 slice .item ;
 : get-word global_words swap .item ;
@@ -37,7 +39,7 @@
 : >= 2dup > rrot = or ;
 : <= 2dup < rrot = or ;
 : xor op " __xor__ " 2 getattr 2 call 1 int negate ;
-: invert op " __invert__ " 2 getattr 2 call ;
+: invert op " __invert__ " 2 getattr 1 call ;
 'invert " invert numerical value ( 0 -- -1 ; -1 -- 0 ) " .doc
 : true -1 ;
 : false 0 ;

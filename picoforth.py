@@ -23,10 +23,6 @@ import operator as op
 # builtins
 # "duplicate top ( a -- a a )"
 
-def negate_func(stack, words):
-    """negate numeric value ( n -- -n )"""
-    stack.append(-stack.pop())
-
 def swap_func(stack, words):
     """swap 2 topmost elements ( a b -- b a )"""
     second = stack.pop()
@@ -106,7 +102,6 @@ global_words = {
     "swap": swap_func,
     ";": define_end,
     ":": lambda x: x,
-    "negate": negate_func,
     "loop": loop_func,
     "exec": exec_external,
     "call": call_func,
