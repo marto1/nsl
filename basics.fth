@@ -20,7 +20,12 @@
 : or op " __or__ " 2 getattr 2 call 1 bool 1 int negate ;
 'or " logical or ( a b -- -1/0 ) " .doc
 : * op " mul " 2 getattr 2 call ;
+: drop -1 stack " __delitem__ " 2 getattr 1 call ;
+: nip -2 stack " __delitem__ " 2 getattr 1 call ;
+: dup -1 stack " __getitem__ " 2 getattr 1 call ;
 : 2dup over over ;
+: rot -3 stack " pop " 2 getattr 1 call ;
+: rrot -2 swap stack " insert " 2 getattr 2 call ;
 : = op " eq " 2 getattr 2 call 1 int negate ;
 '= " equality test ( a b -- -1/0 ) " .doc
 : > op " gt " 2 getattr 2 call 1 int negate ;
@@ -40,6 +45,3 @@
 : .help 1 none .slice get-word func_doc 2 getattr 1 print ;
 '.help " get documention for word ('word -- doc) " .doc
 : bye 0 exit ;
-: drop -1 stack " __delitem__ " 2 getattr 1 call ;
-: nip -2 stack " __delitem__ " 2 getattr 1 call ;
-: dup -1 stack " __getitem__ " 2 getattr 1 call ;

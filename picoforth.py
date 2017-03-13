@@ -21,14 +21,11 @@ import inspect
 import operator as op
 
 # builtins
+# "duplicate top ( a -- a a )"
 
 def print_pop(stack, words):
     """pop top and print it ( a -- )"""
     print (stack.pop())
-
-# def dup(stack, words):
-#     """duplicate top ( a -- a a )"""
-#     stack.append(stack[-1])
 
 def negate_func(stack, words):
     """negate numeric value ( n -- -n )"""
@@ -37,16 +34,6 @@ def negate_func(stack, words):
 def over_func(stack, words):
     """copy 2nd element to top ( a b -- a b a )"""
     stack.append(stack[-2])
-
-def rrotate(stack, words):
-    """place first element to 3rd place ( a b c -- c b a )"""
-    el = stack.pop()
-    stack.insert(-2, el)
-
-def rotate(stack, words):
-    """place 3rd element on top ( a b c -- c b a )"""
-    el = stack.pop(-3)
-    stack.append(el)
 
 def swap_func(stack, words):
     """swap 2 topmost elements ( a b -- b a )"""
@@ -125,10 +112,7 @@ def call_python(token, stack, argcount, isbuilt):
 
 global_words = {
     ".": print_pop,
-    # "dup": dup,
     "over": over_func,
-    "rrot": rrotate,
-    "rot": rotate,
     "swap": swap_func,
     ";": define_end,
     ":": lambda x: x,
