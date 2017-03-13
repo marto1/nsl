@@ -27,10 +27,6 @@ def negate_func(stack, words):
     """negate numeric value ( n -- -n )"""
     stack.append(-stack.pop())
 
-def over_func(stack, words):
-    """copy 2nd element to top ( a b -- a b a )"""
-    stack.append(stack[-2])
-
 def swap_func(stack, words):
     """swap 2 topmost elements ( a b -- b a )"""
     second = stack.pop()
@@ -107,7 +103,6 @@ def call_python(token, stack, argcount, isbuilt):
         stack.append(res)
 
 global_words = {
-    "over": over_func,
     "swap": swap_func,
     ";": define_end,
     ":": lambda x: x,
