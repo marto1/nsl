@@ -23,10 +23,6 @@ import operator as op
 # builtins
 # "duplicate top ( a -- a a )"
 
-def print_pop(stack, words):
-    """pop top and print it ( a -- )"""
-    print (stack.pop())
-
 def negate_func(stack, words):
     """negate numeric value ( n -- -n )"""
     stack.append(-stack.pop())
@@ -111,7 +107,6 @@ def call_python(token, stack, argcount, isbuilt):
         stack.append(res)
 
 global_words = {
-    ".": print_pop,
     "over": over_func,
     "swap": swap_func,
     ";": define_end,
