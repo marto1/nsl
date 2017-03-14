@@ -22,13 +22,9 @@ import operator as op
 
 # builtins
 # "duplicate top ( a -- a a )"
-
-def swap_func(stack, words):
-    """swap 2 topmost elements ( a b -- b a )"""
-    second = stack.pop()
-    first = stack.pop()
-    stack.append(second)
-    stack.append(first)
+# "swap 2 topmost elements ( a b -- b a )"
+class WordList(list): #cannot add func_doc to list
+    pass
 
 def loop_func(stack, words):
     """take 'word and number, execute word n times  ( a n -- )"""
@@ -36,9 +32,6 @@ def loop_func(stack, words):
     word = stack.pop()[1:]
     w_list = [word]*number
     execute(w_list, stack, words)
-
-class WordList(list): #cannot add func_doc to list
-    pass
 
 def define_end(stack, words):
     """end of definition."""
@@ -52,8 +45,7 @@ def define_end(stack, words):
             break
         else:
             definition.append(str(el))
-    return 0    
-
+    return 0
 
 def exec_external(stack, words):
     """Execute a python statement and return to stack if not None"""
@@ -98,7 +90,6 @@ def call_python(token, stack, argcount, isbuilt):
         stack.append(res)
 
 global_words = {
-    "swap": swap_func,
     ";"   : define_end,
     ":"   : lambda x: x,
     "loop": loop_func,

@@ -1,5 +1,6 @@
+: over -2 stack " __getitem__ " 2 getattr 1 call ;
+: swap over -3 stack " __delitem__ " 2 getattr 1 call ;
 : negate op " __neg__ " 2 getattr 1 call ;
-'negate " negate numeric value ( n -- -n ) " .doc
 : .item swap __getitem__ 2 getattr 1 call ;
 : .slice 2 slice .item ;
 : get-word global_words swap .item ;
@@ -22,7 +23,6 @@
 : or op " __or__ " 2 getattr 2 call 1 bool 1 int negate ;
 'or " logical or ( a b -- -1/0 ) " .doc
 : * op " mul " 2 getattr 2 call ;
-: over -2 stack " __getitem__ " 2 getattr 1 call ;
 'over " copy 2nd element to top ( a b -- a b a ) " .doc
 : drop -1 stack " __delitem__ " 2 getattr 1 call ;
 : nip -2 stack " __delitem__ " 2 getattr 1 call ;
@@ -52,3 +52,4 @@
 : bye 0 exit ;
 : . 1 print ;
 '. " pop top and print it ( a -- ) " .doc
+'negate " negate numeric value ( n -- -n ) " .doc
