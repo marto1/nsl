@@ -47,15 +47,6 @@ def define_end(stack, words):
             definition.append(str(el))
     return 0
 
-def exec_external(stack, words):
-    """Execute a python statement and return to stack if not None"""
-    cmd = 'res = {}'.format(stack.pop())
-    code = compile(cmd, "script", "exec")
-    ns = dict(glob)
-    exec(code, ns)
-    if ns["res"]: #only if its not None we want it on the stack
-        stack.append(ns["res"])
-
 def call_func(stack, words):
     """call function recorded on the stack with arguments ( a n -- )"""
     argcount = stack.pop()
@@ -93,7 +84,6 @@ global_words = {
     ";"   : define_end,
     ":"   : lambda x: x,
     "loop": loop_func,
-    "exec": exec_external,
     "call": call_func,
     "none": none_func,
 }
