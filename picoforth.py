@@ -27,19 +27,18 @@ import operator as op
 class WordList(list): #cannot add func_doc to list
     pass
 
+def find_last(lst, sought_elt): #rfind for lists
+    for r_idx, elt in enumerate(reversed(lst)):
+        if elt == sought_elt:
+            return len(lst) - 1 - r_idx
 
 def define_end(stack, words):
     """end of definition."""
     definition = WordList()
-    while len(stack) > 0:
-        el = stack.pop()
-        if type(el) == str and el == ":":
-            name = definition.pop()
-            definition.reverse()
-            words[name] = definition
-            break
-        else:
-            definition.append(str(el))
+    def_end = find_last(stack, ":")
+    name, definition = stack[def_end+1], stack[def_end+2:]
+    del stack[def_end:]
+    words[name] = WordList(definition)
     return 0
 
 def call_func(stack, words):
@@ -115,7 +114,7 @@ def execute(tokens, lstack, words):
         if quote_flag:
             quoted_lstack.append(token)
             continue
-        if token.lstrip("-").isdigit():
+        if type(token) == int or token.lstrip("-").isdigit():
             lstack.append(int(token))
         else:
             if token not in words:
