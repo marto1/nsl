@@ -27,6 +27,7 @@
 : drop -1 stack " __delitem__ " 2 getattr 1 call ;
 : nip -2 stack " __delitem__ " 2 getattr 1 call ;
 : dup -1 stack " __getitem__ " 2 getattr 1 call ;
+: tuck dup -2 swap stack " insert " 2 getattr 2 call ;
 : 2dup over over ;
 : rot -3 stack " pop " 2 getattr 1 call ;
 : rrot -2 swap stack " insert " 2 getattr 2 call ;

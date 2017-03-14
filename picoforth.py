@@ -91,7 +91,6 @@ def call_python(token, stack, argcount, isbuilt):
     args = stack[-argcount:]
     del stack[-argcount:]
     if isbuilt:
-        # print("{}! {} {} {}".format(token , args, argcount, len(stack)))
         res = builtins[token](*args)
     else:        
         res = glob[token](*args)
@@ -100,8 +99,8 @@ def call_python(token, stack, argcount, isbuilt):
 
 global_words = {
     "swap": swap_func,
-    ";": define_end,
-    ":": lambda x: x,
+    ";"   : define_end,
+    ":"   : lambda x: x,
     "loop": loop_func,
     "exec": exec_external,
     "call": call_func,
