@@ -56,7 +56,10 @@ def call_func(stack, words):
         return
     args = stack[-argcount:]
     del stack[-argcount:]
-    res = func(*args)
+    if type(func) == WordList:
+        res = execute(func, stack, words)
+    else:
+        res = func(*args)
     if res != None:
         stack.append(res)
 
