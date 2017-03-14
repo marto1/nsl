@@ -53,3 +53,4 @@
 : . 1 print ;
 '. " pop top and print it ( a -- ) " .doc
 'negate " negate numeric value ( n -- -n ) " .doc
+: loop swap get-word * stack global_words 3 execute ;

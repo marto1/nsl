@@ -23,15 +23,10 @@ import operator as op
 # builtins
 # "duplicate top ( a -- a a )"
 # "swap 2 topmost elements ( a b -- b a )"
+# "take word and number, execute word n times  ( a n -- )"
 class WordList(list): #cannot add func_doc to list
     pass
 
-def loop_func(stack, words):
-    """take 'word and number, execute word n times  ( a n -- )"""
-    number = stack.pop()
-    word = stack.pop()[1:]
-    w_list = [word]*number
-    execute(w_list, stack, words)
 
 def define_end(stack, words):
     """end of definition."""
@@ -86,7 +81,6 @@ def call_python(token, stack, argcount, isbuilt):
 global_words = {
     ";"   : define_end,
     ":"   : lambda x: x,
-    "loop": loop_func,
     "call": call_func,
     "none": none_func,
 }
