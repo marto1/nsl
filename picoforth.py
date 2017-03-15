@@ -32,13 +32,13 @@ def find_last(lst, sought_elt): #rfind for lists
         if elt == sought_elt:
             return len(lst) - 1 - r_idx
 
-def define_end(stack, words):
+def block_end(stack, words):
     """end of definition."""
     definition = WordList()
     def_end = find_last(stack, ":")
-    name, definition = stack[def_end+1], stack[def_end+2:]
+    definition = stack[def_end+1:]
     del stack[def_end:]
-    words[name] = WordList(definition)
+    stack.append(definition)
     return 0
 
 def call_func(stack, words):
@@ -56,6 +56,12 @@ def call_func(stack, words):
         res = func(*args)
     if res != None:
         stack.append(res)
+
+def define(stack, words):
+    """define a definition ( a b -- )"""
+    name, definition = stack[-2:]
+    del stack[-2:]
+    words[name] = WordList(definition)
 
 def none_func(stack, words):
     """None constant"""
@@ -78,10 +84,11 @@ def call_python(token, stack, argcount, isbuilt):
         stack.append(res)
 
 global_words = {
-    ";"   : define_end,
+    ";"   : block_end,
     ":"   : lambda x: x,
     "call": call_func,
     "none": none_func,
+    "def"  : define,
 }
 # end builtins
 
