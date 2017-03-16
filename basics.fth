@@ -53,4 +53,5 @@ bye : 0 exit ; def
 . : 1 print ; def
 '. " pop top and print it ( a -- ) " .doc
 'negate " negate numeric value ( n -- -n ) " .doc
-loop : swap * stack global_words 3 execute ; def
+loop : * stack global_words 3 execute ; def
+
