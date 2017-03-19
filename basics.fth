@@ -45,7 +45,7 @@ invert : op " __invert__ " 2 getattr 1 call ; def
 true : -1 ; def
 false : 0 ; def
 0> : 0 > ; def
-empty : '. depth 1 - loop ; def
+empty : : . ; depth loop ; def
 clearstack : none none 2 slice stack " __delitem__ " 2 getattr 1 call ; def
 .help : 1 none .slice get-word func_doc 2 getattr 1 print ; def
 '.help " get documention for word ('word -- doc) " .doc

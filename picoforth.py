@@ -44,7 +44,7 @@ def block_end(stack, words):
     """end of definition."""
     definition = WordList()
     def_end = find_last(stack, ":")
-    definition = stack[def_end+1:]
+    definition.extend(stack[def_end+1:])
     del stack[def_end:]
     stack.append(definition)
     return 0
@@ -129,7 +129,11 @@ def execute(tokens, lstack, words):
         if quote_flag:
             quoted_lstack.append(token)
             continue
-        if type(token) == int or token.lstrip("-").isdigit():
+        t = type(token)
+        if t == WordList:
+            lstack.append(token)
+            continue
+        if t == int or (t == str and token.lstrip("-").isdigit()):
             lstack.append(int(token))
         else:
             if token not in words:

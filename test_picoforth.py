@@ -91,7 +91,6 @@ read_file_and_execute("basics.fth", g_stack, g_words)
 def test_tos(tokens, result):
     stack = []
     execute(tokens, stack, g_words)
-    print stack
     assert stack[-1] == result
 
 @pytest.mark.parametrize("tokens, result", stack_op)
