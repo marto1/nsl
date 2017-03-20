@@ -29,9 +29,6 @@ import inspect
 import operator as op
 
 # builtins
-# "duplicate top ( a -- a a )"
-# "swap 2 topmost elements ( a b -- b a )"
-# "take word and number, execute word n times  ( a n -- )"
 class WordList(list): #cannot add func_doc to list
     pass
 
