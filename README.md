@@ -1,1 +1,1 @@
-forth-like language that describes node interactions in terms of traffic over time
+Simple forth-like language  that wraps around Python.
