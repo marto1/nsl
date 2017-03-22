@@ -9,6 +9,7 @@ included : stack global_words 3 read_file_and_execute ; def
 .s : stack 1 print ; def
 words : global_words " keys " 2 getattr 0 call 1 print ; def
 depth : stack 1 len ; def
+.m : 2 getattr swap call ; def
 + : op " __add__ " 2 getattr 2 call ; def
 - : negate + ; def
 and : op " __and__ " 2 getattr 2 call 1 bool 1 int negate ; def
@@ -39,4 +40,6 @@ bye : 0 exit ; def
 . : 1 print ; def
 loop : * stack global_words 3 execute ; def
 if : swap 1 abs loop ; def
+.split : 2 getattr 2 call ; def
+imported : 0 globals 0 locals rot 4 __import__ ; def
 " docs.fth " included

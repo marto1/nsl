@@ -1,8 +1,6 @@
 """
 General purpose forth implemented in python
 
-Should eventually replace the messy one in p2psim.
-
 Forth                          Python
 stack 1 print                  print(stack)
    '  '  '
