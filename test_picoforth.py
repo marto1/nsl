@@ -77,6 +77,8 @@ stack_op = [
     (["0", "invert"], [-1]),
     (["20", "invert"], [-21]),
     ([",", "1", "a,b,c", "split", ".m"], [["a", "b", "c"]]),
+    (["a;b;c", "\"", ";", "\"", ".split"], [["a", "b", "c"]]),
+    (["a,b,c", ".split,"], [["a", "b", "c"]]),
 ]
 
 g_stack, g_words = [], dict(global_words)

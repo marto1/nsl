@@ -5,7 +5,8 @@
 'words " print all defined words ( -- ) " .doc
 'depth " put stack size on top ( -- +n ) " .doc
 '.m " call a method from object ( n1 a b  -- c ) " .doc
-'.split " create a list of strings ( a,b,c -- [a, b, c] ) " .doc
+'.split " create a list of strings ( adbdc d -- [a, b, c] ) " .doc
+'.split, " .split with , shorthand  ( a,b,c -- [a, b, c] ) " .doc
 '+ " add two numeric values ( n1 n2 -- n1+n2 ) " .doc
 '- " substract two numeric values ( n1 n2 -- n1-n2 ) " .doc
 'and " logical and ( a b -- -1/0 ) " .doc
