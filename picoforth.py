@@ -77,9 +77,14 @@ def call_python(token, stack, argcount, isbuilt):
         else:
             stack.append(glob[token])
         return
-    args = stack[-argcount:]
-    del stack[-argcount:]
+    if argcount != 0:
+        args = stack[-argcount:]
+        del stack[-argcount:]
+    else:
+        args = []
     if isbuilt:
+        # print(argcount)
+        # print(args)
         res = builtins[token](*args)
     else:        
         res = glob[token](*args)
