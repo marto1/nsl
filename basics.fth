@@ -42,8 +42,8 @@ loop : * stack global_words 3 execute ; def
 if : swap 1 abs loop ; def
 .split : 1 rot " split " .m ; def
 .split, : " , " .split ; def
-.split. : " . " .split ; def
-.split; : " ; " .split ; def
+.split. : \" . \" .split ; def
+.split; : \" " ; " \" .split ; def
 code : 1 none .slice get-word 1 print ; def
 imported : 0 globals 0 locals rot 4 __import__ ; def
 " docs.fth " included

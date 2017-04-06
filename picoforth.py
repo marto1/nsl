@@ -118,16 +118,19 @@ def execute(tokens, lstack, words):
     glob["stack"] = lstack
     glob["global_words"] = words
     for token in tokens:
+        if token == "\\\"":
+            lstack.append("\"")
+            continue
         if token == "\"":
             if quote_flag:
-                lstack.append(" ".join(quoted_lstack))
+                lstack.append(" ".join(quoted_stack))
                 quote_flag = False
             else:
-                quoted_lstack = []
+                quoted_stack = []
                 quote_flag = True
             continue
         if quote_flag:
-            quoted_lstack.append(token)
+            quoted_stack.append(token)
             continue
         t = type(token)
         if t == WordList:
