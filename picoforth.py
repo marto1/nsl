@@ -1,23 +1,7 @@
 """
 General purpose forth implemented in python
 
-Forth                          Python
-stack 1 print                  print(stack)
-   '  '  '
-   '  '  '
-   '  '  ' check print type, function so consume arguments and execute
-   '  '-- number of items to pull from the stack
-   ' check stack type, is variable so put on stack
-
-" Hello world! " 1 print       print("Hello World!")
-
-x : " Hello " 1 print ; def    def x(): print("Hello")
-' '   '               '  '
-' '   '               '  '  define keyword
-' '   '               ' end definiton block
-' '   'definition block
-' 'begin definition block
-'definition name
+See README for more information.
 """
 from __future__ import print_function
 from time import time, sleep
@@ -83,8 +67,6 @@ def call_python(token, stack, argcount, isbuilt):
     else:
         args = []
     if isbuilt:
-        # print(argcount)
-        # print(args)
         res = builtins[token](*args)
     else:        
         res = glob[token](*args)
