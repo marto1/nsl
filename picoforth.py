@@ -5,6 +5,7 @@ See README for more information.
 """
 from __future__ import print_function
 from time import time, sleep
+import readline
 import fileinput
 import sys
 import inspect
@@ -148,7 +149,7 @@ def execute(tokens, lstack, words):
                     ignore = False
 
 def read_line_and_execute(line, stack, words):
-    line = line[:-1].rstrip()
+    line = line.rstrip()
     tokens = line.split(" ")
     execute(tokens, stack, words)
 
@@ -164,6 +165,6 @@ if __name__ == '__main__':
         read_file_and_execute(sys.argv[1], global_stack, global_words)
     while True:
         read_line_and_execute(
-            sys.stdin.readline(),
+            raw_input(),
             global_stack,
             global_words)
