@@ -1,9 +1,6 @@
 Description
 ===========
 
-Simple forth-like language  that wraps around Python.
-
-
 ```
 Forth                          Python
 stack 1 print                  print(stack)
