@@ -40,9 +40,9 @@ Start the interpreter:
 ` python picoforth.py basics.fth `
 
 This will load the runtime and import basic functionality as well
-as documentation for Forth defined definitions. 
+as documentation for Forth definitions.
 
-You can now do usual Forth stuff now:
+You can now do usual Forth stuff:
 
 ` 2 3 + . ` to print sum 2 + 3 and pop and print the result.
 
@@ -60,6 +60,6 @@ with ' and calling .help on it.
 To call a Python function just call it as usual, but make sure the
 first argument is the number of arguments the function takes.
 
-For example ` " Hello, world! " 1 len . ` will print the length.
+For example: ` " Hello, world! " 1 len . ` will print the length.
 
 See examples/ directory for more.
