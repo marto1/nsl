@@ -49,7 +49,7 @@ def define(stack, words):
     """define a definition ( a b -- )"""
     name, definition = stack[-2:]
     del stack[-2:]
-    words[name] = WordList(definition)
+    words[name] = definition
 
 def none_func(stack, words):
     """None constant"""
@@ -145,8 +145,9 @@ def execute(tokens, lstack, words):
                     res = execute(func, lstack, words)
                 else:
                     res = func(lstack, words)
-                if res != None:
+                if res != None and (":" not in stack):
                     ignore = False
+                # print("stack:" + str(stack) + "ignore: " + str(ignore))
 
 def read_line_and_execute(line, stack, words):
     line = line.rstrip()
