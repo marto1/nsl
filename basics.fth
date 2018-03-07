@@ -23,6 +23,7 @@ tuck : dup -2 swap stack " insert " 2 getattr 2 call ; def
 rot : -3 stack " pop " 2 getattr 1 call ; def
 rrot : -2 swap stack " insert " 2 getattr 2 call ; def
 n3 : stack -3 .item ; def
+m3 : rrot n3 ; def
 = : op " eq " 2 getattr 2 call 1 int negate ; def
 > : op " gt " 2 getattr 2 call 1 int negate ; def
 < : op " lt " 2 getattr 2 call 1 int negate ; def
@@ -45,6 +46,7 @@ if : swap 1 abs loop ; def
 .split, : " , " .split ; def
 .split. : \" . \" .split ; def
 .split; : \" " ; " \" .split ; def
+.insert : m3 2 swap " insert " .m ; def
 code : 1 none .slice get-word 1 print ; def
 imported : 0 globals 0 locals rot 4 __import__ ; def
 " docs.fth " included
