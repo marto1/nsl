@@ -22,6 +22,7 @@ tuck : dup -2 swap stack " insert " 2 getattr 2 call ; def
 2dup : over over ; def
 rot : -3 stack " pop " 2 getattr 1 call ; def
 rrot : -2 swap stack " insert " 2 getattr 2 call ; def
+n3 : stack -3 .item ; def
 = : op " eq " 2 getattr 2 call 1 int negate ; def
 > : op " gt " 2 getattr 2 call 1 int negate ; def
 < : op " lt " 2 getattr 2 call 1 int negate ; def

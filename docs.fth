@@ -20,6 +20,7 @@
 '2dup " duplicate top 2 elements ( a b -- a b a b ) " .doc
 'rot " rotate 3rd element ( a b c -- b c a ) " .doc
 'rrot " reverse rotate ( a b c -- c a b ) " .doc
+'n3 " copy 3rd element to top ( a b c -- a b c a ) " .doc    
 'swap " swap 2 topmost elements ( a b -- b a ) " .doc
 'loop " take word and number, execute word n times  ( a n -- ) " .doc
 'over " copy 2nd element to top ( a b -- a b a ) " .doc

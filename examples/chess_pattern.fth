@@ -1,4 +1,5 @@
 " Print a chess pattern.  " .
-invrow : : 2dup ; swap loop ; def
-invertpattern : ; def
-chess : " _ " " X " invertpattern ; def
+invrow : n3 1 - : rot n3 n3 ; swap loop rot 2 * 2 + print ; def
+invertpattern :  dup invrow  ; def
+chess : " _ " " X " rot invrow ; def
+5 " _ " " X " invrow
