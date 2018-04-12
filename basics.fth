@@ -5,6 +5,7 @@ negate : op " __neg__ " .. 1 call ; def
 .item : swap __getitem__ .. 1 call ; def
 .slice : 2 slice .item ; def
 get-word : global_words swap .item ; def
+get-word-q : 1 none .slice get-word ; def
 .doc : swap 1 none .slice get-word swap func_doc swap 3 setattr ; def
 included : stack global_words 3 read_file_and_execute ; def
 .s : stack 1 print ; def
