@@ -5,6 +5,7 @@
 'words " print all defined words ( -- ) " .doc
 'depth " put stack size on top ( -- +n ) " .doc
 '.m " call a method from object ( n1 a b  -- c ) " .doc
+'.. " get method A from object B ( b a -- c ) " .doc
 '.split " create a list of strings ( adbdc d -- [a, b, c] ) " .doc
 '.split, " .split with , shorthand  ( a,b,c -- [a, b, c] ) " .doc
 '.split. " .split with . shorthand  ( a,b,c -- [a, b, c] ) " .doc

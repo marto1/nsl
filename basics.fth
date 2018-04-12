@@ -10,6 +10,7 @@ included : stack global_words 3 read_file_and_execute ; def
 words : global_words " keys " 2 getattr 0 call 1 print ; def
 depth : stack 1 len ; def
 .m : 2 getattr swap call ; def
+.. : 2 getattr ; def
 + : op " __add__ " 2 getattr 2 call ; def
 - : negate + ; def
 and : op " __and__ " 2 getattr 2 call 1 bool 1 int negate ; def
