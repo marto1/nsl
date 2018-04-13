@@ -27,6 +27,7 @@ rrot : -2 swap stack " insert " .. 2 call ; def
 n3 : stack -3 .item ; def
 m3 : rrot n3 ; def
 = : op " eq " .. 2 call 1 int negate ; def
+!= : op " ne " .. 2 call 1 int negate ; def
 > : op " gt " .. 2 call 1 int negate ; def
 < : op " lt " .. 2 call 1 int negate ; def
 >= : 2dup > rrot = or ; def
