@@ -5,6 +5,6 @@ field : F : . ; 9 loop ; def
 clear-screen : clear os true imported " system " .. 1 call drop ; def
 user-input : " (0-9)> " 1 input ; def
 init : clear-screen field ; def
-rules : 'F get-word-q ; def
-game-loop : : rules init user-input ; 2 loop ; def
+rules : 1 2 'F get-word-q __setitem__ .m ; def
+game-loop : : init user-input rules ; 5 loop ; def
 game-loop
