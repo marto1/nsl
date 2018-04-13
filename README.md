@@ -63,3 +63,9 @@ first argument is the number of arguments the function takes.
 For example: ` " Hello, world! " 1 len . ` will print the length.
 
 See examples/ directory for more.
+
+Performace
+==========
+
+It is VERY slow. A version where code is compiled to .pyc files is
+coming soon hopefully.
